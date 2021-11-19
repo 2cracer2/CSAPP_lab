@@ -6,3 +6,4 @@ void store_uprod(uint128_t *dest, uint64_t x, uint64_t y)
 {
     *dest = x * (uint128_t)y;
 }
+ls
