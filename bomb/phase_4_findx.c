@@ -1,3 +1,11 @@
+/*
+ * @Author: Cracer 
+ * @Date: 2021-11-26 20:58:38 
+ * @Last Modified by: Cracer
+ * @Last Modified time: 2021-11-26 23:36:19
+ * 
+ */
+
 #include <stdio.h>
 
 int fun(int a1, int a2, int x)
@@ -19,13 +27,27 @@ int fun(int a1, int a2, int x)
     }
 }
 
+// int fun(int a1, int a2, int a3)
+// {
+//     int v3;     // ecx
+//     int result; // rax
+
+//     v3 = ((int)a3 - (int)a2) / 2 + a2;
+//     if (v3 > (int)a1)
+//         return 2 * (unsigned int)fun(a1, a2, (unsigned int)(v3 - 1));
+//     result = 0LL;
+//     if (v3 < (int)a1)
+//         return 2 * (unsigned int)fun(a1, (unsigned int)(v3 + 1), a3) + 1;
+//     return result;
+// }
+
 int main(void)
 
 {
     printf("findx");
     for (int i = 0; i <= 0xe; i++)
     {
-        if (fun(0xe, 0, i) == 0)
+        if (fun(0xe, 0x0, i) == 0)
         {
             printf("%d\n", i);
             return 0;

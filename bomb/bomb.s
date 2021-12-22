@@ -351,7 +351,7 @@ Disassembly of section .text:
   400ef0:	74 05                	je     400ef7 <phase_1+0x17>
   400ef2:	e8 43 05 00 00       	callq  40143a <explode_bomb>
   400ef7:	48 83 c4 08          	add    $0x8,%rsp
-  400efb:	c3                   	retq   
+  400efb:	c3                   	retq    
 
 0000000000400efc <phase_2>:
   400efc:	55                   	push   %rbp
