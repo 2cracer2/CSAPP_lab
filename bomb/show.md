@@ -28,3 +28,7 @@
 | -Wall        | 生成所有警告信息。                                                                       |
 ## gdb
 使用前先`gcc -g 源文件.c -o 输出的目标文件` 保存调试信息
+print(char*) 0x40245e
+x /s 0x4024b0
+## ida使用
+IDA (Interactive Disassemble Professional) 交互式反汇编器，是一款静态反编译软件 主界面也是流程图，F5可生成对应的伪代码

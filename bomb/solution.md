@@ -314,3 +314,52 @@ int fun(int a1, int a2, int x){
   4010f3:	c3                   	retq   
 ```
 
+```
+  40106a:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+  401071:	00 00 
+  401073:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
+``` 
+栈中压入cannary值
+
+之后比较输入值的长度与6的大小，为否，则引爆炸弹
+
+为真后取读入的字符串中rax位置处的字符，再取它的低4位放在edx中。
+
+进入循环体中，将地址0x4024b0+rdx中的一个字节放入edx的低16位中。再将这16位复制到了rsp+0x10+rax
+
+rax是循环变量i，取值1-6，rbx是input。把input看作一个包含6个字符的数组，就很容易理解(%rbx,%rax,1)即input[i]
+
+通过gdb调试可查出0x4024b0的值为"maduiersnfotvbylSo you think you can stop the bomb with ctrl-c, do you?"，循环体外面$0x0,0x16(%rsp)在rsp+0x16的位置也就是6个字符之后置上一个0x0也就是终止符\0。
+
+接下来将0x40245e这个地址赋给esi，把rsp+0x10这个地址赋给rdi，接下来调用strings_not_equal这个函数，进行判断不同则引爆炸弹。
+
+通过gdb调试可查出0x40245e的值为"flyers"。
+
+总结一下即是input的字符串的每个字符&0xf作为**maduiersnfotvbyl**的下标使其取出来的值为flyers。
+就只需要找到&0xf分别为 9 15 14 5 6 7的字符
+
+
+
+
+
+ida生成的伪代码
+```
+unsigned __int64 __fastcall phase_5(__int64 a1)
+{
+  __int64 i; // rax
+  char v3[8]; // [rsp+10h] [rbp-18h] BYREF
+  unsigned __int64 v4; // [rsp+18h] [rbp-10h]
+
+  v4 = __readfsqword(0x28u);
+  if ( (unsigned int)string_length() != 6 )
+    explode_bomb();
+  for ( i = 0LL; i != 6; ++i )
+    v3[i] = array_3449[*(_BYTE *)(a1 + i) & 0xF];
+  v3[6] = 0;
+  if ( (unsigned int)strings_not_equal(v3, "flyers") )
+    explode_bomb();
+  return __readfsqword(0x28u) ^ v4;
+}
+```
+
+# phase_6
